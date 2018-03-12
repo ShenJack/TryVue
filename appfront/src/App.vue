@@ -11,7 +11,6 @@
 
 <script>
 import AboutMeFooter from './components/AboutMeFooter.vue'
-import AnswerCard from './components/Answer.vue'
 import HangOnCard from './components/HangOn'
 export default {
   name: 'app',
