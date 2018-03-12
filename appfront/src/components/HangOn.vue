@@ -35,7 +35,6 @@
 
         </div>
       </div>
-      Hang On Card
     </div>
     <div class="card">
       <header class="card-header">

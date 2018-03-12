@@ -11,10 +11,10 @@
 
 
       </div>
-      <div id="modal" class="modal is-active" @click="hideModal" v-if="isShow">
+      <div id="modal" class="modal" v-bind:class="{'is-active':isShow}"  @click="hideModal">
         <div class="modal-background"></div>
         <div class="modal-content">
-          <p class="image is-4by4">
+          <p class="image is-3by3 ">
             <img src="../assets/wechat.jpg" alt="">
           </p>
         </div>
@@ -39,7 +39,7 @@
         this.isShow = true;
       },
       hideModal: function (event) {
-        this.isShow = ''
+        this.isShow = false;
       }
     }
   }

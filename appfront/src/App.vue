@@ -1,9 +1,11 @@
 <template>
   <div id="app">
-    <router-view/>
-    <AnswerCard/>
-    <HangOnCard/>
-    <AboutMeFooter/>
+    <router-view>
+
+    </router-view>
+    <AnswerCard></AnswerCard>
+    <HangOnCard></HangOnCard>
+    <AboutMeFooter></AboutMeFooter>
   </div>
 </template>
 
