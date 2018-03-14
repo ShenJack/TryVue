@@ -17,34 +17,41 @@
         <div class="field">
           <label class="label">Unipus用户名（学号）<span style="color: red">*</span></label>
           <div class="control has-icons-left has-icons-right">
-            <input class="input is-success" type="number" placeholder="用户名（学号）" value="bulma" v-model="username">
+            <input class="input" type="number" placeholder="用户名（学号）" value="bulma" v-model="username"
+                   v-bind:class="{'is-danger':usernameError}">
             <span class="icon is-small is-left">
-      <svg class="svg-inline--fa fa-user fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 0c88.366 0 160 71.634 160 160s-71.634 160-160 160S96 248.366 96 160 167.634 0 256 0zm183.283 333.821l-71.313-17.828c-74.923 53.89-165.738 41.864-223.94 0l-71.313 17.828C29.981 344.505 0 382.903 0 426.955V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48v-37.045c0-44.052-29.981-82.45-72.717-93.134z"></path></svg>
+      <svg class="svg-inline--fa fa-user fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="user" role="img"
+           xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor"
+                                                                                           d="M256 0c88.366 0 160 71.634 160 160s-71.634 160-160 160S96 248.366 96 160 167.634 0 256 0zm183.283 333.821l-71.313-17.828c-74.923 53.89-165.738 41.864-223.94 0l-71.313 17.828C29.981 344.505 0 382.903 0 426.955V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48v-37.045c0-44.052-29.981-82.45-72.717-93.134z"></path></svg>
     </span>
-            <span class="icon is-small is-right">
-    </span>
+            <p class="help is-danger" v-show="usernameError">有误</p>
           </div>
         </div>
 
         <div class="field">
           <label class="label">密码<span style="color: red">*</span></label>
           <div class="control has-icons-left has-icons-right">
-            <input class="input is-danger" type="password" placeholder="Unipus密码" value="hello@" v-model="password">
+            <input class="input" type="password" placeholder="Unipus密码" value="hello@" v-model="password"
+                   v-bind:class="{'is-danger':passwordError}">
             <span class="icon is-small is-left">
-            <svg class="svg-inline--fa fa-lock fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="lock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"></path></svg>
+            <svg class="svg-inline--fa fa-lock fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="lock" role="img"
+                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor"
+                                                                                                 d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"></path></svg>
 
     </span>
             <span class="icon is-small is-right">
       <i class="fas fa-exclamation-triangle"></i>
     </span>
+            <p class="help is-danger" v-show="passwordError">有误</p>
           </div>
         </div>
 
         <div class="columns">
           <div class="field column">
             <label class="label" style="text-align: left">年级<span style="color: red">*</span></label>
+
             <div class="control">
-              <div class="select">
+              <div class="select" v-bind:class="{'is-danger':gradeError}">
                 <select v-model="grade">
                   <option disabled value="">请选择</option>
                   <option>大二下</option>
@@ -52,9 +59,13 @@
                 </select>
               </div>
             </div>
+            <p class="help is-danger" v-show="gradeError">有误</p>
+
           </div>
           <div class="field column">
-            <label class="label" style="text-align: left">填写验证码了没？<span style="color: red">*</span></label>
+            <label class="label" style="text-align: left" v-bind:class="{'is-danger':codeError}">填写验证码了没？<span
+              style="color: red">*</span></label>
+
             <div class="control">
               <div class="select">
                 <select v-model="hasEnteredCode">
@@ -65,38 +76,50 @@
                 </select>
               </div>
             </div>
+            <p class="help is-danger" v-show="codeError">有误</p>
+
           </div>
           <div class="field column">
 
           </div>
         </div>
 
-        <div class="field">
-          <div class="control">
-            <label class="checkbox">
-              <input type="checkbox" v-model="enableScoreInput">
-              刷题（在后面附上要刷的大概分数，0-100分）
-            </label>
+        <div style="padding: 2px 2px 1px 2px;" v-bind:style="{background:taskContentErrorColor}">
+          <div style="background-color: white">
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" v-model="enableScoreInput">
+                  刷题（在后面附上要刷的大概分数，0-100分）
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <input v-bind:class="{'is-danger':scoreError}" v-model="score" :disabled="!enableScoreInput" class="input is-small" type="number"
+                       placeholder="分数">
+              </div>
+            </div>
+            <p class="help is-danger" v-show="scoreError">有误</p>
+
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox" v-model="enableHangOnInput">
+                  挂机（在后面附上要挂的时间，0-1000 <span style="color: red">分钟</span>）
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <input v-model="hangOnTime" v-bind:class="{'is-danger':timeError}" :disabled="!enableHangOnInput"
+                       class="input is-small" type="number" placeholder="时间，单位：分钟">
+              </div>
+            </div>
+            <p class="help is-danger" v-show="timeError">有误</p>
           </div>
         </div>
-        <div class="field">
-          <div class="control">
-            <input :disabled="!enableScoreInput" class="input is-small" type="number" placeholder="分数">
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <label class="checkbox">
-              <input type="checkbox" v-model="enableHangOnInput">
-              挂机（在后面附上要挂的时间，0-1000 <span style="color: red">分钟</span>）
-            </label>
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <input :disabled="!enableHangOnInput" class="input is-small" type="number" placeholder="时间，单位：分钟">
-          </div>
-        </div>
+        <p class="help is-danger" v-show="taskContentError">请至少选择一个</p>
 
         <div class="field">
           <label class="label">联系方式?过程出了问题，方便我联系到你</label>
@@ -122,9 +145,10 @@
           </div>
         </div>
 
-      </section>>
-      </div>
+      </section>
+      >
     </div>
+  </div>
 </template>
 
 <script>
@@ -132,25 +156,62 @@
     name: 'editProfile',
     data() {
       return {
-        name:'',
-        username:'',
-        password:'',
-        grade:'',
-        hasEnteredCode:'',
-        enableScoreInput:false,
-        enableHangOnInput:false,
-        showCancel:false,
+        name: '',
+        username: '',
+        password: '',
+        grade: '',
+        hasEnteredCode: '',
+        enableScoreInput: false,
+        enableHangOnInput: false,
+        showCancel: false,
+
+        hangOnTime: '0',
+        score: '0',
+
+        // usernameError: true,
+        // passwordError: true,
+        // gradeError: true,
+        // codeError: true,
       }
     },
-    methods:{
-      checkAndSend:function(){
-        check()
+    computed: {
+      usernameError: function () {
+        return this.username.length !== 9;
       },
-      check:function () {
-        if(this.username===''){
-                  }
+      passwordError: function () {
+        return this.password === '';
+      },
+      gradeError: function () {
+        return this.grade === '';
+      },
+      codeError: function () {
+        return this.hasEnteredCode === '';
+      },
+      taskContentErrorColor: function () {
+        if(this.taskContentError){
+          return '#ffaaae';
+        }else {
+          return 'white';
+        }
+      },
+      taskContentError: function () {
+        return !this.enableHangOnInput && !this.enableScoreInput;
+      },
+      timeError: function () {
+        return this.enableHangOnInput && (this.hangOnTime <= 0 || this.hangOnTime > 800);
+      },
+      scoreError: function () {
+        return this.enableScoreInput && (this.score <= 0 || this.score > 100)
       }
-
+    },
+    methods: {
+      checkAndSend: function () {
+        if(!this.usernameError&&!this.passwordError&&!this.gradeError&&!this.codeError&&!this.taskContentError&&!this.timeError&&!this.scoreError){
+          alert('pass')
+        }else {
+          alert('error')
+        }
+      }
     }
   }
 </script>
