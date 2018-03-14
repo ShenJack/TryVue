@@ -152,6 +152,9 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import Vue from 'vue'
+  Vue.prototype.$ajax = axios
   export default {
     name: 'editProfile',
     data() {
@@ -202,15 +205,23 @@
       },
       scoreError: function () {
         return this.enableScoreInput && (this.score <= 0 || this.score > 100)
-      }
+      },
     },
     methods: {
       checkAndSend: function () {
         if(!this.usernameError&&!this.passwordError&&!this.gradeError&&!this.codeError&&!this.taskContentError&&!this.timeError&&!this.scoreError){
           alert('pass')
+          this.send()
         }else {
           alert('error')
+          this.send()
         }
+      },
+      send:function(){
+        this.$ajax('api/categories')
+          .then(function (response) {
+            console.log(response.data);
+          })
       }
     }
   }
