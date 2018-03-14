@@ -1,0 +1,156 @@
+<template>
+  <div class="modal is-active">
+    <div class="modal-background">
+    </div>
+    <div class="modal-card">
+      <header class="modal-card-header" style="background-color: whitesmoke;padding: 10px">
+        <p class="modal-card-title">修改信息 </p>
+      </header>
+      <section class="modal-card-body">
+        <div class="field">
+          <label class="label">怎么称呼？（方便辨认）<span style="color: red">*</span></label>
+          <div class="control">
+            <input class="input" type="text" placeholder="随便输入一个名字" v-model="name">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Unipus用户名（学号）<span style="color: red">*</span></label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input is-success" type="number" placeholder="用户名（学号）" value="bulma" v-model="username">
+            <span class="icon is-small is-left">
+      <svg class="svg-inline--fa fa-user fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 0c88.366 0 160 71.634 160 160s-71.634 160-160 160S96 248.366 96 160 167.634 0 256 0zm183.283 333.821l-71.313-17.828c-74.923 53.89-165.738 41.864-223.94 0l-71.313 17.828C29.981 344.505 0 382.903 0 426.955V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48v-37.045c0-44.052-29.981-82.45-72.717-93.134z"></path></svg>
+    </span>
+            <span class="icon is-small is-right">
+    </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">密码<span style="color: red">*</span></label>
+          <div class="control has-icons-left has-icons-right">
+            <input class="input is-danger" type="password" placeholder="Unipus密码" value="hello@" v-model="password">
+            <span class="icon is-small is-left">
+            <svg class="svg-inline--fa fa-lock fa-w-14" aria-hidden="true" data-prefix="fas" data-icon="lock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"></path></svg>
+
+    </span>
+            <span class="icon is-small is-right">
+      <i class="fas fa-exclamation-triangle"></i>
+    </span>
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="field column">
+            <label class="label" style="text-align: left">年级<span style="color: red">*</span></label>
+            <div class="control">
+              <div class="select">
+                <select v-model="grade">
+                  <option disabled value="">请选择</option>
+                  <option>大二下</option>
+                  <option>大一下</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="field column">
+            <label class="label" style="text-align: left">填写验证码了没？<span style="color: red">*</span></label>
+            <div class="control">
+              <div class="select">
+                <select v-model="hasEnteredCode">
+                  <option disabled value="">请选择</option>
+                  <option>填了</option>
+                  <option>没填</option>
+                  <option>什么玩意儿？</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="field column">
+
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <label class="checkbox">
+              <input type="checkbox" v-model="enableScoreInput">
+              刷题（在后面附上要刷的大概分数，0-100分）
+            </label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <input :disabled="!enableScoreInput" class="input is-small" type="number" placeholder="分数">
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <label class="checkbox">
+              <input type="checkbox" v-model="enableHangOnInput">
+              挂机（在后面附上要挂的时间，0-1000 <span style="color: red">分钟</span>）
+            </label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <input :disabled="!enableHangOnInput" class="input is-small" type="number" placeholder="时间，单位：分钟">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">联系方式?过程出了问题，方便我联系到你</label>
+          <div class="control">
+            <input class="input is-small" type="text" placeholder="任何联系方式都行">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">备注</label>
+          <div class="control">
+            <textarea class="textarea" placeholder="有啥想嘱咐我的，我一定能看到的"></textarea>
+          </div>
+        </div>
+
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" @click="checkAndSend">Submit</button>
+          </div>
+          <div class="control">
+            <button class="button is-text" v-show="showCancel">Cancel</button>
+          </div>
+        </div>
+
+      </section>>
+      </div>
+    </div>
+</template>
+
+<script>
+  export default {
+    name: 'editProfile',
+    data() {
+      return {
+        name:'',
+        username:'',
+        password:'',
+        grade:'',
+        hasEnteredCode:'',
+        enableScoreInput:false,
+        enableHangOnInput:false,
+        showCancel:false,
+      }
+    },
+    methods:{
+      checkAndSend:function(){
+        check()
+      },
+      check:function () {
+        if(this.username===''){
+                  }
+      }
+
+    }
+  }
+</script>

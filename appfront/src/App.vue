@@ -1,23 +1,31 @@
 <template>
   <div id="app">
+    <Profile></Profile>
+    <ProfileEditor></ProfileEditor>
     <router-view>
-
     </router-view>
-    <AnswerCard></AnswerCard>
-    <HangOnCard></HangOnCard>
-    <AboutMeFooter></AboutMeFooter>
   </div>
 </template>
 
 <script>
 import AboutMeFooter from './components/AboutMeFooter.vue'
-import HangOnCard from './components/HangOn'
+import HangOnCard from './components/HangOn.vue'
+import AnswerCard from './components/Answer.vue'
+import Profile from './components/Profile.vue'
+import ProfileEditor from './components/EditProfile.vue'
 export default {
   name: 'app',
   components:{
+    Profile,
     HangOnCard,
     AnswerCard,
     AboutMeFooter,
+    ProfileEditor,
+  },
+  methods:{
+    openProfileForm(){
+
+    }
   }
 }
 </script>

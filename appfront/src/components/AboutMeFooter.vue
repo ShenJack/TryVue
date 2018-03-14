@@ -14,7 +14,7 @@
       <div id="modal" class="modal" v-bind:class="{'is-active':isShow}"  @click="hideModal">
         <div class="modal-background"></div>
         <div class="modal-content">
-          <p class="image is-3by3 ">
+          <p class="image is-3by3">
             <img src="../assets/wechat.jpg" alt="">
           </p>
         </div>
