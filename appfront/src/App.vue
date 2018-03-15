@@ -1,14 +1,15 @@
 <template>
   <div id="app">
-    <Profile></Profile>
-    <ProfileEditor></ProfileEditor>
+    <Profile v-on:editProfile="openProfileForm"></Profile>
+    <ProfileEditor ref="editor"></ProfileEditor>
     <router-view>
     </router-view>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
-import AboutMeFooter from './components/AboutMeFooter.vue'
+import Footer from './components/AboutMeFooter.vue'
 import HangOnCard from './components/HangOn.vue'
 import AnswerCard from './components/Answer.vue'
 import Profile from './components/Profile.vue'
@@ -19,12 +20,14 @@ export default {
     Profile,
     HangOnCard,
     AnswerCard,
-    AboutMeFooter,
+    Footer,
     ProfileEditor,
   },
   methods:{
-    openProfileForm(){
-
+    openProfileForm(edit){
+      if(edit){
+        this.$refs.editor.show(edit);
+      }
     }
   }
 }

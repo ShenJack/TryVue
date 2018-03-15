@@ -91,7 +91,7 @@
     },
     methods:{
       editProfile:function () {
-
+        this.$emit('editProfile',true);
       }
     }
   }
