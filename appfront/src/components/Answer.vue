@@ -81,6 +81,7 @@
   const STATUS_RUNNING = 0;
   const STATUS_IDLE = 1;
   const STATUS_SUCCESS = 2;
+  const STATUS_ERROR  = 3;
   export default {
     name: 'answerCard',
     data() {
@@ -135,6 +136,9 @@
             this.answerStatusText = '空闲中';
             this.answerLabel = 'is-light';
             break;
+          case STATUS_ERROR:
+            this.answerStatusText = '错误';
+            this.answerLabel = 'is-danger';
         }
       },
       setSendingState: function (percent) {
@@ -161,12 +165,33 @@
             break;
         }
       },
+      cancelSendingState:function () {
+        this.buttonLoading20 = false;
+        this.buttonLoading50 = false;
+        this.buttonLoading100 = false;
+        this.buttonLoadingLeft = false;
+      },
       startAnswer: function (percent) {
+        const outer = this;
         if (percent > 100 || percent < 0) {
 //        error
         }else {
-          this.setSendingState(percent)
+          this.setSendingState(percent);
           /*send request*/
+          this.$axios.post('/startAnswer/',require('qs').stringify({
+            percent:percent,
+          })).then(function (response) {
+//            alert(response.status);
+            if(response.status === 200){
+              outer.setStatus(STATUS_RUNNING);
+              outer.cancelSendingState();
+              alert(response.data)
+            }else {
+              outer.setStatus(STATUS_ERROR);
+              outer.cancelSendingState();
+              alert(response.data)
+            }
+          })
         }
       },
       addLog: function (log) {
@@ -182,8 +207,8 @@
     created: function () {
 //      this.answerPercent = 80;
 //      this.setDisabled(this.answerPercent)
-      this.addLog();
-      this.setStatus(STATUS_SUCCESS)
+//      this.addLog();
+//      this.setStatus(STATUS_SUCCESS)
     }
 
   }</script>

@@ -1,9 +1,11 @@
 <template>
   <div id="app">
-    <Profile v-on:editProfile="openProfileForm"></Profile>
+    <Profile ref="profile" v-on:editProfile="openProfileForm"></Profile>
     <ProfileEditor ref="editor"></ProfileEditor>
     <router-view>
     </router-view>
+    <AnswerCard></AnswerCard>
+    <HangOnCard></HangOnCard>
     <Footer></Footer>
   </div>
 </template>
@@ -28,7 +30,25 @@ export default {
       if(edit){
         this.$refs.editor.show(edit);
       }
+    },
+    setProfile: function (data) {
+      if(data.signed){
+        this.$refs.profile.setProfile(data)
+      }else {
+        this.$refs.editor.show(false);
+      }
+    },
+    initProfile(){
+      const outer = this;
+      this.$axios.get('/getHome')
+        .then(function (response) {
+//          const data = JSON.parse(response);
+          outer.setProfile(response);
+        })
     }
+  },
+  created:function () {
+    this.initProfile()
   }
 }
 </script>
