@@ -97,7 +97,8 @@
               </div>
               <div class="field">
                 <div class="control">
-                  <input v-bind:class="{'is-danger':scoreError}" v-model="score" :disabled="!enableScoreInput" class="input is-small" type="number"
+                  <input v-bind:class="{'is-danger':scoreError}" v-model="score" :disabled="!enableScoreInput"
+                         class="input is-small" type="number"
                          placeholder="分数">
                 </div>
               </div>
@@ -155,6 +156,7 @@
 
 <script>
   import Vue from 'vue'
+
   export default {
     name: 'editProfile',
     data() {
@@ -171,10 +173,10 @@
         hangOnTime: '0',
         score: '0',
 
-        isShow:false,
+        isShow: false,
 
-        contact:'',
-        remarks:'',
+        contact: '',
+        remarks: '',
 
         // usernameError: true,
         // passwordError: true,
@@ -196,9 +198,9 @@
         return this.hasEnteredCode === '';
       },
       taskContentErrorColor: function () {
-        if(this.taskContentError){
+        if (this.taskContentError) {
           return '#ffaaae';
-        }else {
+        } else {
           return 'white';
         }
       },
@@ -214,40 +216,42 @@
     },
     methods: {
       checkAndSend: function () {
-        if(!this.usernameError&&!this.passwordError&&!this.gradeError&&!this.codeError&&!this.taskContentError&&!this.timeError&&!this.scoreError){
+        if (!this.passwordError && !this.gradeError && !this.codeError && !this.taskContentError && !this.timeError && !this.scoreError) {
           alert('pass');
           this.send()
-        }else {
+        } else {
           alert('error');
           this.send()
         }
       },
-      send:function(){
-        this.$axios.post('/index/',{
-          name:this.name,
-          password:this.password,
-          grade:this.grade,
-          score:this.score,
-          hangOnTime:this.hangOnTime,
-          hasEnteredCode:this.hasEnteredCode,
-          contact:this.contact,
-          remarks:this.remarks
-        })
+      send: function () {
+        this.$axios.post('/editProfile/', require('qs').stringify({
+          name: this.name,
+          password: this.password,
+          grade: this.grade,
+          score: this.score,
+          doAnswer: this.enableScoreInput,
+          doHangOn: this.enableHangOnInput,
+          hangOnTime: this.hangOnTime,
+          hasEnteredCode: this.hasEnteredCode,
+          contact: this.contact,
+          remarks: this.remarks
+        }))
           .then(function (response) {
             console.log(response.data);
           })
       },
-      show:function (edit) {
+      show: function (edit) {
         this.isShow = true;
-        if(edit){
+        if (edit) {
           this.title = '修改信息';
           this.cancelable = true;
-        }else {
+        } else {
           this.title = '补全信息';
           this.cancelable = false;
         }
       },
-      cancel:function(){
+      cancel: function () {
         this.isShow = false;
       }
     }

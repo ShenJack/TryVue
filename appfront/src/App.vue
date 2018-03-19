@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Profile ref="profile" v-on:editProfile="openProfileForm"></Profile>
+    <Profile ref="myProfile" v-on:editProfile="openProfileForm"></Profile>
     <ProfileEditor ref="editor"></ProfileEditor>
     <router-view>
     </router-view>
@@ -33,7 +33,7 @@ export default {
     },
     setProfile: function (data) {
       if(data.signed){
-        this.$refs.profile.setProfile(data)
+        this.$refs.myProfile.setProfile(data)
       }else {
         this.$refs.editor.show(false);
       }
