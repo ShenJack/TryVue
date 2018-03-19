@@ -9,10 +9,14 @@
         </header>
         <section class="modal-card-body">
           <div class="field">
-            <label class="label">怎么称呼？（方便辨认）</label>
+            <label class="label">怎么称呼？（方便辨认）<span style="color: red">*</span></label>
             <div class="control">
-              <input class="input" type="text" placeholder="随便输入一个名字" v-model="name">
+              <input class="input" type="text" placeholder="随便输入一个名字" v-model="name"
+                     v-bind:class="{'is-danger':nameError}">
+              <p class="help is-danger" v-show="nameError">有误</p>
+
             </div>
+
           </div>
 
           <!--<div class="field">-->
@@ -39,9 +43,6 @@
                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor"
                                                                                                  d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"></path></svg>
 
-    </span>
-              <span class="icon is-small is-right">
-      <i class="fas fa-exclamation-triangle"></i>
     </span>
               <p class="help is-danger" v-show="passwordError">有误</p>
             </div>
@@ -76,8 +77,9 @@
                     <option>什么玩意儿？</option>
                   </select>
                 </div>
+                <p class="help is-danger" v-show="codeError">有误</p>
+
               </div>
-              <p class="help is-danger" v-show="codeError">有误</p>
 
             </div>
             <div class="field column">
@@ -100,9 +102,10 @@
                   <input v-bind:class="{'is-danger':scoreError}" v-model="score" :disabled="!enableScoreInput"
                          class="input is-small" type="number"
                          placeholder="分数">
+                  <p class="help is-danger" v-show="scoreError">有误</p>
+
                 </div>
               </div>
-              <p class="help is-danger" v-show="scoreError">有误</p>
 
               <div class="field">
                 <div class="control">
@@ -211,12 +214,15 @@
         return this.enableHangOnInput && (this.hangOnTime <= 0 || this.hangOnTime > 800);
       },
       scoreError: function () {
-        return this.enableScoreInput && (this.score <= 0 || this.score > 100)
+        return this.enableScoreInput && (this.score <= 0 || this.score > 100);
       },
+      nameError: function () {
+        return this.name === '';
+      }
     },
     methods: {
       checkAndSend: function () {
-        if (!this.passwordError && !this.gradeError && !this.codeError && !this.taskContentError && !this.timeError && !this.scoreError) {
+        if (!this.nameError && !this.passwordError && !this.gradeError && !this.codeError && !this.taskContentError && !this.timeError && !this.scoreError) {
           alert('pass');
           this.send()
         } else {
@@ -225,6 +231,7 @@
         }
       },
       send: function () {
+        const outer = this;
         this.$axios.post('/editProfile/', require('qs').stringify({
           name: this.name,
           password: this.password,
@@ -238,7 +245,12 @@
           remarks: this.remarks
         }))
           .then(function (response) {
-            console.log(response.data);
+            if(response.status!==200){
+              alert('错误，请联系作者');
+              outer.cancel();
+            }else {
+              outer.cancel();
+            }
           })
       },
       show: function (edit) {

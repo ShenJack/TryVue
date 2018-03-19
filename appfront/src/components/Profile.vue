@@ -9,13 +9,13 @@
       <div class="media-content">
         <div class="content">
           <p>
-            <small>昵称</small>
-            <strong> {{name}}</strong>
+            <small></small>
+            <strong>{{name}}</strong>
             <br>
           </p>
           <p>
             <small>创建于</small>
-            <strong>{{updateTime}}</strong>
+            <strong>{{createTime}}</strong>
           </p>
         </div>
 
@@ -58,12 +58,6 @@
       </div>
       <div class="level-item has-text-centered">
         <div>
-          <p class="heading">创建的时间</p>
-          <p class="title">{{createTime}}</p>
-        </div>
-      </div>
-      <div class="level-item has-text-centered">
-        <div>
           <p class="heading">更新的时间</p>
           <p class="title">{{updateTime}}</p>
         </div>
@@ -78,20 +72,29 @@
     name: 'bigtitle',
     data() {
       return {
-        name: 'shenjack',
-        answerStatus: '空闲中',
-        msg: 'Welcome to Your Vue.js App',
-        username: '161002516',
-        password: 'password',
-        book: '大二下',
-        createTime: '2016-08-08',
-        updateTime: '2016-08-08',
-        answerPercent: '50'
+        name: '',
+        answerStatus: '',
+        username: '',
+        password: '',
+        book: '',
+        createTime: '',
+        updateTime: '',
+        answerPercent: '',
       }
     },
     methods:{
       editProfile:function () {
         this.$emit('editProfile',true);
+      },
+      setProfile:function (data) {
+        this.name = data.name;
+        this.username = data.username;
+        this.password = data.password;
+        this.createTime = data.createTime;
+        this.updateTime = data.updateTime;
+
+        this.book = data.book;
+        alert('profile set')
       }
     }
   }
